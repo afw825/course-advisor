@@ -11,15 +11,20 @@ courses = [
 ]
 
 selected_dept = st.selectbox("Select Department", options=["All", "CS", "Math", "English"])
-
 keyword = st.text_input("Keyword Search")
 
 if st.button("Show Courses"):
     for course in courses:
+        # 1. Lowercase both for case-insensitive search
         name = course["name"].lower()
+        search_term = keyword.lower()
         dept = course["dept"]
-        if (keyword in name) and (dept == selected_dept or "All"):
-            st.write(f"{course["name"]}   ({course["credits"]} credits)")
+        
+        # 2. Logic fix: Check if 'All' is selected OR if the depts match
+        if search_term in name and (selected_dept == "All" or dept == selected_dept):
+            # 3. Syntax fix: Use single quotes inside the f-string brackets
+            st.write(f"{course['name']} ({course['credits']} credits)")
+            
             if course["credits"] == 4:
                 st.write("High workload course")
             else:
